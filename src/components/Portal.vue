@@ -1,9 +1,7 @@
 <template>
   <div id="portal">
     <h3>Ventas</h3>
-    <div class="total">
-      Total = {{this.total}}
-    </div>
+    <div class="total">Total = {{total}}</div>
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
       <div class="userData">
@@ -49,15 +47,16 @@ export default {
     }
   },
   computed: {
-        total: function () {
-          var t = 0;
-          for(var i in this.sales){
-            t += this.sales[i].total;
-            console.log(this.sales[i].total)
-          }
-          return t;
-        }
+    total: function() {
+      var t = 0;
+      var self = this.sales;
+      for (var i in self) {
+        t += self[i][0].total;
+        console.log(self[i][0]);
+      }
+      return t;
     }
+  }
 };
 </script>
 
