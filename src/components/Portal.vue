@@ -1,7 +1,8 @@
 <template>
   <div id="portal">
-    <h3>Ventas</h3>
-    <div class="total">Total = {{total}}</div>
+    <h1>Ventas</h1>
+    <div class="total" style="font-size:24px;font-weight:bold;">Total = {{total}}</div>
+    <br><br>
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
       <div class="userData">
@@ -15,7 +16,7 @@
         <div class="line"></div>
         <div class="items">
           <div class="item" v-for="item  in sale[0].items" v-bind:key="item">
-            <div class="row name">Variedad : {{item.variedad}}</div>
+            <div class="row name">{{item.variedad}}</div>
             <div class="row amount">Cantidad : {{item.cantidad}}</div>
             <div class="row payment">Pago : {{item.pago}}</div>
             <div class="row price">Precio : {{item.precio}}</div>
