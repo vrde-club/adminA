@@ -36,8 +36,7 @@ const salesRef = db.ref("sales");
 export default {
   data() {
     return {
-      sales: [],
-      total = 0
+      sales: []
     };
   },
   firebase: {
