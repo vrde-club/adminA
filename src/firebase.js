@@ -4,13 +4,13 @@ import 'firebase/database'
 
 export const db = firebase
     .initializeApp({
-        apiKey: "AIzaSyCwgdBtHXEyUVLe9yP_la8IrN0qG2SYeFM",
-        authDomain: "vrde-admin.firebaseapp.com",
-        databaseURL: "https://vrde-admin.firebaseio.com",
-        projectId: "vrde-admin",
-        storageBucket: "",
-        messagingSenderId: "549162612019",
-        appId: "1:549162612019:web:8eaa67dae5a1304c43fa46"
+        apiKey: "AIzaSyCdklOqU0EcjNEWy8Cvv1KVIKyYAL-SsU0",
+        authDomain: "admina-8e76b.firebaseapp.com",
+        databaseURL: "https://admina-8e76b.firebaseio.com",
+        projectId: "admina-8e76b",
+        storageBucket: "admina-8e76b.appspot.com",
+        messagingSenderId: "526293543996",
+        appId: "1:526293543996:web:49fa7d8135faa957212739"
     })
     .database()
 

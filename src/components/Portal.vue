@@ -1,11 +1,8 @@
 <template>
   <div id="portal">
-    <h3>Vrde Portal</h3>
+    <h3>Ventas</h3>
     <div class="total">
-      <div class="item">
-        <div class="name"></div>
-        <div class="amount"></div>
-      </div>
+      Total = {{this.total}}
     </div>
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
@@ -39,7 +36,8 @@ const salesRef = db.ref("sales");
 export default {
   data() {
     return {
-      sales: []
+      sales: [],
+      total = 0
     };
   },
   firebase: {
@@ -47,42 +45,20 @@ export default {
   },
   mixins: [Vue2Filters.mixin],
   methods: {
-    submitProduct() {
-      salesRef.push({
-        name: this.name,
-        edit: false,
-        image: this.image,
-        type: this.type,
-        price: this.price,
-        active: this.active,
-        amount: 0
-      });
-      this.name = "";
-      this.image = "";
-      this.type = "";
-      this.price = "";
-      this.active = true;
-    },
     removeSale(key) {
       salesRef.child(key).remove();
-    },
-    setEditName(key) {
-      salesRef.child(key).update({ edit: true });
-    },
-    cancelEdit(key) {
-      salesRef.child(key).update({ edit: false });
-    },
-    saveEdit(product) {
-      const key = product[".key"];
-      salesRef.child(key).set({
-        name: product.name,
-        edit: false,
-        image: product.image,
-        type: product.type,
-        price: product.price
-      });
     }
-  }
+  },
+  computed: {
+        total: function () {
+          var t = 0;
+          for(var i in this.sales){
+            t += this.sales[i].total;
+            console.log(this.sales[i].total)
+          }
+          return t;
+        }
+    }
 };
 </script>
 
