@@ -1,8 +1,14 @@
 <template>
   <div id="portal">
     <h1>Ventas</h1>
-    <div class="total" style="font-size:24px;font-weight:bold;">Total = {{total}}</div>
-    <br><br>
+        <div class="count">
+      <div class="row" v-for="item in salesTotalCount" v-bind:key="item['.key']">
+        <div class="name">{{item.name}}</div>
+        <div class="amount">{{item.amount}}</div>
+      </div>
+    </div>
+    <br />
+    <br />
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
       <div class="userData">
@@ -48,14 +54,32 @@ export default {
     }
   },
   computed: {
-    total: function() {
-      var t = 0;
-      var self = this.sales;
-      for (var i in self) {
-        t += self[i][0].total;
-        console.log(self[i][0]);
+    salesTotalCount: function() {
+      var self = this;
+      var s = self.sales;
+      var c = {};
+      for (var i in s) {
+        var items = s[i][0].items;
+        for (var o in items) {
+          var name = items[o].variedad.toString();
+          if (!c[name] === NaN) {
+            c[name] = 0;
+          } else {
+            c[name] = parseInt(items[o].cantidad);
+          }
+        }
       }
-      return t;
+      var n = [];
+      for (var i in c) {
+        n.push({ name: i, amount: c[i] });
+      }
+      n.sort(function(a, b) {
+        var textA = a.name.toUpperCase();
+        var textB = b.name.toUpperCase();
+        return textA < textB ? -1 : textA > textB ? 1 : 0;
+      });
+      this.count = n;
+      return this.count;
     }
   }
 };
@@ -127,5 +151,20 @@ export default {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.count {
+}
+.count .row {
+  display: flex;
+  border-bottom: 0.5px solid #e2e2e2;
+  max-width: 180px;
+  margin-bottom: 7px;
+}
+.count .row .amount {
+}
+.count .row .name {
+  width: 180px;
+  text-align: left;
 }
 </style>
