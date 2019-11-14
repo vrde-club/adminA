@@ -1,7 +1,7 @@
 <template>
   <div id="portal">
     <h1>Ventas</h1>
-        <div class="count">
+    <div class="count">
       <div class="row" v-for="item in salesTotalCount" v-bind:key="item['.key']">
         <div class="name">{{item.name}}</div>
         <div class="amount">{{item.amount}}</div>
@@ -62,11 +62,10 @@ export default {
         var items = s[i][0].items;
         for (var o in items) {
           var name = items[o].variedad.toString();
-          if (!c[name] === NaN) {
+          if (!c[name]) {
             c[name] = 0;
-          } else {
-            c[name] = parseInt(items[o].cantidad);
           }
+          c[name] += items[o].cantidad;
         }
       }
       var n = [];
