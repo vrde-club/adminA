@@ -272,7 +272,7 @@ export default {
   text-align: left;
 }
 
-input {
+#portal input {
   padding: 5px;
   border: none;
   background-color: #f1f1f1;
@@ -280,7 +280,7 @@ input {
   width: 200px;
 }
 
-.item input {
+#portal .item input {
   max-width: 70px;
 }
 </style>
