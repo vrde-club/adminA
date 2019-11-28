@@ -12,20 +12,11 @@
     <br />
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
-      <label for="category">Esta pago? ehh?</label>
-      <select
-        v-model="sale[0].pago"
-        @change="updatePayment($event, sale['.key'])"
-        class="selectPayment"
-      >
-        <option value="Todavia no">todavia nop</option>
-        <option value="MercadoPago">MercadoPago</option>
-        <option value="Efectivo">Efectivo</option>
-      </select>
+
       <div class="userData">
         <div class="line"></div>
         <div class="line date">
-          Fecha :
+          <div class="lineTitle">Fecha :</div>
           <input
             type="text"
             v-model="sale[0].date"
@@ -34,7 +25,7 @@
         </div>
 
         <div class="line name">
-          Nombre :
+          <div class="lineTitle">Nombre :</div>
           <input
             type="text"
             v-model="sale[0].name"
@@ -43,7 +34,7 @@
         </div>
 
         <div class="line address">
-          Direccion :
+          <div class="lineTitle">Direccion :</div>
           <input
             type="text"
             v-model="sale[0].address"
@@ -52,7 +43,7 @@
         </div>
 
         <div class="line phone">
-          Cel :
+          <div class="lineTitle">Cel :</div>
           <input
             type="text"
             v-model="sale[0].phone"
@@ -61,7 +52,7 @@
         </div>
 
         <div class="line email">
-          Correo :
+          <div class="lineTitle">Correo :</div>
           <input
             type="text"
             v-model="sale[0].email"
@@ -70,38 +61,53 @@
         </div>
 
         <div class="line total">
-          Total :
+          <div class="lineTitle">Total :</div>
           <input
             type="text"
             v-model="sale[0].total"
             @change="updateUserInfo($event, sale['.key'], '0/total')"
           />
         </div>
-
-        <div class="line total">
-          Pago :
-          <input
-            type="text"
+        <div class="line pago">
+          <div class="lineTitle">Pago :</div>
+          <select
             v-model="sale[0].pago"
             @change="updateUserInfo($event, sale['.key'], '0/pago')"
-          />
+            class="selectPayment"
+          >
+            <option value="Todavia no">todavia nop</option>
+            <option value="MercadoPago">MercadoPago</option>
+            <option value="Efectivo">Efectivo</option>
+          </select>
         </div>
 
         <div class="line"></div>
         <div class="items">
-          <div class="item" v-for="(item, index) in sale[0].items" v-bind:key='index'>
+          <div class="item" v-for="(item, index) in sale[0].items" v-bind:key="index">
             <div class="row name">{{item.variedad}}</div>
             <div class="row amount">
               Cantidad :
-              <input type="text" v-model="item.cantidad" @change="updateItems($event, sale['.key'], index, 'cantidad')"/>
+              <input
+                type="text"
+                v-model="item.cantidad"
+                @change="updateItems($event, sale['.key'], index, 'cantidad')"
+              />
             </div>
             <div class="row payment">
               Pago :
-              <input type="text" v-model="item.pago" @change="updateItems($event, sale['.key'], index, 'pago')"/>
+              <input
+                type="text"
+                v-model="item.pago"
+                @change="updateItems($event, sale['.key'], index, 'pago')"
+              />
             </div>
             <div class="row price">
               Precio :
-              <input type="text" v-model="item.precio" @change="updateItems($event, sale['.key'], index, 'precio')"/>
+              <input
+                type="text"
+                v-model="item.precio"
+                @change="updateItems($event, sale['.key'], index, 'precio')"
+              />
             </div>
           </div>
         </div>
@@ -138,11 +144,11 @@ export default {
       salesRef.child(key).update(updateObject);
     },
     updateItems(event, key, index, name) {
-      console.log(key, index, name)
+      console.log(key, index, name);
       var n = "0/items/" + index + "/" + name;
       let updateObject = {
         [n]: event.target.value
-      }
+      };
       salesRef.child(key).update(updateObject);
     }
   },
@@ -159,7 +165,7 @@ export default {
           if (!c[name]) {
             c[name] = 0;
           }
-          c[name] += items[o].cantidad;
+          c[name] += parseInt(items[o].cantidad);
         }
       }
       var n = [];
@@ -201,6 +207,8 @@ export default {
   color: #333;
   font-weight: bold;
 }
+.line .lineTitle {
+}
 .sale .userData .items {
   display: flex;
   flex-direction: column;
@@ -226,6 +234,9 @@ export default {
 }
 .sale .userData .items .item .row.price {
   width: 100px;
+}
+
+.sale .selectPayment {
 }
 
 .greenBtn {
@@ -259,5 +270,17 @@ export default {
 .count .row .name {
   width: 180px;
   text-align: left;
+}
+
+input {
+  padding: 5px;
+  border: none;
+  background-color: #f1f1f1;
+  margin-right: 2px;
+  width: 200px;
+}
+
+.item input {
+  max-width: 70px;
 }
 </style>
