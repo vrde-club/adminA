@@ -150,13 +150,12 @@ export default {
     salesTotalCount: function() {
       var self = this;
       var s = self.sales;
-      console.log(s)
       var c = {};
       for (var i in s) {
         var items = s[i][0].items;
         for (var o in items) {
-          var name = items[o].variedad;
-          self.totalSales += items[o].pago;
+          var name = items[o].variedad.toString();
+          self.totalSales += parseInt(items[o].pago);
           if (!c[name]) {
             c[name] = 0;
           }
