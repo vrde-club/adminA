@@ -1,6 +1,7 @@
 <template>
   <div id="portal">
     <h1>Ventas</h1>
+    <h1>Total : {{totalSales}}</h1>
     <div class="count">
       <div class="row" v-for="item in salesTotalCount" v-bind:key="item['.key']">
         <div class="name">{{item.name}}</div>
@@ -11,21 +12,97 @@
     <br />
     <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
+      <label for="category">Esta pago? ehh?</label>
+      <select
+        v-model="sale[0].pago"
+        @change="updatePayment($event, sale['.key'])"
+        class="selectPayment"
+      >
+        <option value="Todavia no">todavia nop</option>
+        <option value="MercadoPago">MercadoPago</option>
+        <option value="Efectivo">Efectivo</option>
+      </select>
       <div class="userData">
         <div class="line"></div>
-        <div class="line date">Fecha : {{sale[0].date}}</div>
-        <div class="line name">Nombre : {{sale[0].name}}</div>
-        <div class="line address">Direccion : {{sale[0].address}}</div>
-        <div class="line phone">Cel : {{sale[0].phone}}</div>
-        <div class="line email">Correo : {{sale[0].email}}</div>
-        <div class="line total">Total : {{sale[0].total}}</div>
+        <div class="line date">
+          Fecha :
+          <input
+            type="text"
+            v-model="sale[0].date"
+            @change="updateUserInfo($event, sale['.key'], '0/date')"
+          />
+        </div>
+
+        <div class="line name">
+          Nombre :
+          <input
+            type="text"
+            v-model="sale[0].name"
+            @change="updateUserInfo($event, sale['.key'], '0/name')"
+          />
+        </div>
+
+        <div class="line address">
+          Direccion :
+          <input
+            type="text"
+            v-model="sale[0].address"
+            @change="updateUserInfo($event, sale['.key'], '0/address')"
+          />
+        </div>
+
+        <div class="line phone">
+          Cel :
+          <input
+            type="text"
+            v-model="sale[0].phone"
+            @change="updateUserInfo($event, sale['.key'], '0/phone')"
+          />
+        </div>
+
+        <div class="line email">
+          Correo :
+          <input
+            type="text"
+            v-model="sale[0].email"
+            @change="updateUserInfo($event, sale['.key'], '0/email')"
+          />
+        </div>
+
+        <div class="line total">
+          Total :
+          <input
+            type="text"
+            v-model="sale[0].total"
+            @change="updateUserInfo($event, sale['.key'], '0/total')"
+          />
+        </div>
+
+        <div class="line total">
+          Pago :
+          <input
+            type="text"
+            v-model="sale[0].pago"
+            @change="updateUserInfo($event, sale['.key'], '0/pago')"
+          />
+        </div>
+
         <div class="line"></div>
         <div class="items">
-          <div class="item" v-for="item  in sale[0].items" v-bind:key="item">
+          <div class="item" v-for="(item, index) in sale[0].items" v-bind:key='index'>
             <div class="row name">{{item.variedad}}</div>
-            <div class="row amount">Cantidad : {{item.cantidad}}</div>
-            <div class="row payment">Pago : {{item.pago}}</div>
-            <div class="row price">Precio : {{item.precio}}</div>
+            <div class="row amount">
+              Cantidad :
+              <input type="text" v-model="item.cantidad" @change="updateItems($event, sale['.key'], index, 'cantidad')"/>
+            </div>
+            <div class="row payment">
+              Pago :
+              <input type="text" v-model="item.pago" @change="updateItems($event, sale['.key'], index, 'pago')"/>
+            </div>
+            <div class="row price">
+              Precio :
+              <input type="text" v-model="item.precio" @change="updateItems($event, sale['.key'], index, 'precio')"/>
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +118,9 @@ const salesRef = db.ref("sales");
 export default {
   data() {
     return {
-      sales: []
+      sales: [],
+      totalSales: 0,
+      pago: ""
     };
   },
   firebase: {
@@ -51,17 +130,33 @@ export default {
   methods: {
     removeSale(key) {
       salesRef.child(key).remove();
+    },
+    updateUserInfo(event, key, name) {
+      var updateObject = {
+        [name]: event.target.value
+      };
+      salesRef.child(key).update(updateObject);
+    },
+    updateItems(event, key, index, name) {
+      console.log(key, index, name)
+      var n = "0/items/" + index + "/" + name;
+      let updateObject = {
+        [n]: event.target.value
+      }
+      salesRef.child(key).update(updateObject);
     }
   },
   computed: {
     salesTotalCount: function() {
       var self = this;
       var s = self.sales;
+      console.log(s)
       var c = {};
       for (var i in s) {
         var items = s[i][0].items;
         for (var o in items) {
-          var name = items[o].variedad.toString();
+          var name = items[o].variedad;
+          self.totalSales += items[o].pago;
           if (!c[name]) {
             c[name] = 0;
           }
