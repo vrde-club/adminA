@@ -90,7 +90,7 @@
               <input
                 type="text"
                 v-model="item.cantidad"
-                @change="updateItems($event, sale['.key'], index, 'cantidad')"
+                @change="updateItems($event, sale['.key'], index, 'cantidad', item, sale[0])"
               />
             </div>
             <div class="row payment">
@@ -98,7 +98,7 @@
               <input
                 type="text"
                 v-model="item.pago"
-                @change="updateItems($event, sale['.key'], index, 'pago')"
+                @change="updateItems($event, sale['.key'], index, 'pago', item, sale[0])"
               />
             </div>
             <div class="row price">
@@ -106,7 +106,7 @@
               <input
                 type="text"
                 v-model="item.precio"
-                @change="updateItems($event, sale['.key'], index, 'precio')"
+                @change="updateItems($event, sale['.key'], index, 'precio', item, sale[0])"
               />
             </div>
           </div>
@@ -143,10 +143,19 @@ export default {
       };
       salesRef.child(key).update(updateObject);
     },
-    updateItems(event, key, index, name) {
-      console.log(key, index, name);
+    updateItems(event, key, index, name, item, sale) {
       var n = "0/items/" + index + "/" + name;
+      var p = "0/items/" + index + "/pago"
+      if (name == "cantidad"){
+        item.pago = item.precio * item.cantidad;
+      }
+      var saleTotal = 0;
+      for (var i in sale.items){
+        saleTotal += parseInt(sale.items[i].pago)
+      } 
       let updateObject = {
+        "0/total": saleTotal,
+        [p]: item.pago,
         [n]: event.target.value
       };
       salesRef.child(key).update(updateObject);
