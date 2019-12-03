@@ -145,14 +145,14 @@ export default {
     },
     updateItems(event, key, index, name, item, sale) {
       var n = "0/items/" + index + "/" + name;
-      var p = "0/items/" + index + "/pago"
-      if (name == "cantidad"){
+      var p = "0/items/" + index + "/pago";
+      if (name == "cantidad") {
         item.pago = item.precio * item.cantidad;
       }
       var saleTotal = 0;
-      for (var i in sale.items){
-        saleTotal += parseInt(sale.items[i].pago)
-      } 
+      for (var i in sale.items) {
+        saleTotal += parseInt(sale.items[i].pago);
+      }
       let updateObject = {
         "0/total": saleTotal,
         [p]: item.pago,
@@ -216,7 +216,38 @@ export default {
   color: #333;
   font-weight: bold;
 }
+.line {
+  padding: 4px;
+  width: 300px;
+  text-align: left;
+  padding-left: 10px;
+  color: #333;
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-start;
+}
 .line .lineTitle {
+  position: relative;
+  top: 6px;
+  width: 70px;
+}
+
+.count {
+  min-height: 150px;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  margin-top: 40px;
+}
+.count .row {
+  display: flex;
+  border-bottom: 0.5px solid #e2e2e2;
+  max-width: 180px;
+  width: 130px;
+  height: 16px;
+  margin-right: 30px;
 }
 .sale .userData .items {
   display: flex;
@@ -233,7 +264,10 @@ export default {
 }
 
 .sale .userData .items .item .row.name {
-  width: 200px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .sale .userData .items .item .row.amount {
   width: 100px;
@@ -243,9 +277,6 @@ export default {
 }
 .sale .userData .items .item .row.price {
   width: 100px;
-}
-
-.sale .selectPayment {
 }
 
 .greenBtn {
@@ -266,15 +297,11 @@ export default {
   top: 10px;
 }
 
-.count {
-}
 .count .row {
   display: flex;
   border-bottom: 0.5px solid #e2e2e2;
   max-width: 180px;
   margin-bottom: 7px;
-}
-.count .row .amount {
 }
 .count .row .name {
   width: 180px;
