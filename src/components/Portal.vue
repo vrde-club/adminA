@@ -1,7 +1,7 @@
 <template>
   <div id="portal">
     <h1>Ventas</h1>
-    <h1>Total : {{totalSales}}</h1>
+    <h1>Total : ${{totalSales}}</h1>
     <div class="count">
       <div class="row" v-for="item in salesTotalCount" v-bind:key="item['.key']">
         <div class="name">{{item.name}}</div>
@@ -244,10 +244,9 @@ export default {
 }
 .count .row {
   display: flex;
-  border-bottom: 0.5px solid #e2e2e2;
   max-width: 180px;
-  width: 130px;
-  height: 16px;
+  width: 170px;
+  height: 36px;
   margin-right: 30px;
 }
 .sale .userData .items {
