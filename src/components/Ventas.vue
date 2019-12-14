@@ -257,7 +257,7 @@ export default {
   min-height: 150px;
   flex-wrap: wrap;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
   margin-top: 40px;
@@ -273,6 +273,32 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 10px;
+}
+.sale .userData:after {
+	content: '';
+	display: block;  
+	position: absolute;
+	right: 30px;
+	top: 20px;
+	width: 0;
+	height: 0;
+	border-bottom: 10px solid #b6226b;
+	border-top: 10px solid transparent;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+}
+.sale .userData.collapsed:after {
+	content: '';
+	display: block;  
+	position: absolute;
+	right: 30px;
+	top: 20px;
+	width: 0;
+	height: 0;
+	border-bottom: 10px solid transparent;
+	border-top: 10px solid #b6226b;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
 }
 .sale .userData .items .item {
   display: flex;
