@@ -1,7 +1,7 @@
 <template>
   <div id="portal">
-    <h1>Ventas</h1>
     <h1>Total : ${{totalSales}}</h1>
+    <br />
     <div class="count">
       <div class="row" v-for="item in salesTotalCount" v-bind:key="item['.key']">
         <div class="name">{{item.name}}</div>
@@ -10,10 +10,15 @@
     </div>
     <br />
     <br />
-    <div class="sale" v-for="sale in sales" v-bind:key="sale['.key']">
+    <div
+      class="sale"
+      @click="toggleCollapse($event)"
+      v-for="sale in sales"
+      v-bind:key="sale['.key']"
+    >
       <button class="redBtn" @click="removeSale(sale['.key'])">Remove</button>
 
-      <div class="userData">
+      <div class="userData collapsed">
         <div class="line"></div>
         <div class="line date">
           <div class="lineTitle">Fecha :</div>
@@ -159,6 +164,10 @@ export default {
         [n]: event.target.value
       };
       salesRef.child(key).update(updateObject);
+    },
+    toggleCollapse(event) {
+      console.log(event.target);
+      event.target.classList.toggle("collapsed");
     }
   },
   computed: {
@@ -197,10 +206,10 @@ export default {
 <style scoped>
 .sale {
   margin-bottom: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
   position: relative;
-  border-left: 2px solid #00cc65;
+  border-left: 2px solid #b6226b;
+  width: 470px;
 }
 .sale .userData {
   display: flex;
@@ -208,6 +217,10 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   padding: 10px;
+}
+.sale .userData.collapsed {
+  max-height: 258px;
+  overflow: hidden;
 }
 .sale .userData .line {
   padding: 4px;
@@ -225,7 +238,7 @@ export default {
   color: #333;
   font-weight: 700;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 .line .lineTitle {
   position: relative;
@@ -233,11 +246,18 @@ export default {
   width: 70px;
 }
 
+#portal {
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .count {
   min-height: 150px;
   flex-wrap: wrap;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: flex-start;
   align-content: flex-start;
   margin-top: 40px;
@@ -282,19 +302,29 @@ export default {
 .greenBtn {
   height: 30px;
   width: 80px;
-  background-color: #00cc65;
+  background-color: #b6226b;
   border: none;
   color: white;
 }
 .redBtn {
   height: 30px;
   width: 80px;
-  background-color: #fe5046;
+  background-color: #b6226b;
   border: none;
   color: white;
   position: absolute;
+  right: 42px;
+  top: 224px;
+}
+
+.collapse {
+  transform: rotate(90deg);
+  font-size: 30px;
+  color: #b2b2b2;
+  position: absolute;
+  cursor: pointer;
+  padding: 20px;
   right: 10px;
-  top: 10px;
 }
 
 .count .row {
