@@ -228,7 +228,7 @@ button {
 
 .item {
   margin-bottom: 10px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 0px 4px rgba(0, 0, 0, 0.16);
   padding: 0px;
   background-color: #d8d8d8;
   color: #999;
